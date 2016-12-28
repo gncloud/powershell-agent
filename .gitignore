@@ -1,0 +1,5 @@
+*.iml
+.idea
+.vs/
+bin/
+obj/
