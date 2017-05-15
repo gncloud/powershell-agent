@@ -43,8 +43,7 @@ namespace com.gncloud.hyperv.agent.Service
                             error += record.ToString();
                         }
                         error += "\" }";
-                        
-                        //return error;
+                        return error;
                     }
 
                     String result = "";
