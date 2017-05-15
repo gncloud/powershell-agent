@@ -27,7 +27,7 @@ namespace com.gncloud.hyperv.agent.Service
                 try
                 {
                     // Execute PowerShell Script for Result Value.
-                    PowerShell PowerShellInstance = PowerShell.Create().AddScript(script);
+                    PowerShell PowerShellInstance = PowerShell.Create();
                     PowerShellInstance.AddScript(script);
                     // invoke execution on the pipeline (collecting output)
                     Collection<PSObject> PSOutput = PowerShellInstance.Invoke();
