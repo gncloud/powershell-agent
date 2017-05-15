@@ -60,6 +60,10 @@ namespace com.gncloud.hyperv.agent.Service
                             result += outputItem.BaseObject;
                         }
                     }
+                    if (result.Length == 0)
+                    {
+                        result = "{}";
+                    }
 
                     return result;
                 }
