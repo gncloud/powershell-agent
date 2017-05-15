@@ -16,7 +16,7 @@ namespace com.gncloud.hyperv.agent.Service
 
     public class PowerShellService
     {
-        //private static readonly ILog log = LogManager.GetLogger(typeof(PowerShellService));
+        //private static readonly ILog log = LogManager.GetLogger(typeof(sService));
 
         public PowerShellService()
         {
@@ -24,15 +24,35 @@ namespace com.gncloud.hyperv.agent.Service
 
         public String powerShellScript(String script)
         {
-            //log.Info("Result Script: " + script);
-            // Execute PowerShell Script for Result Value.
-            Collection<PSObject> result = PowerShell.Create()
-                    .AddScript(script)
-                    .Invoke();
+            Collection<PSObject> result = new Collection<PSObject>();
+            try
+            {
+                //log.Info("Result Script: " + script);
+                // Execute PowerShell Script for Result Value.
+                result = PowerShell.Create()
+                        .AddScript(script)
+                        .Invoke();
+            }
+            catch (InvalidOperationException e)
+            {
+                return "{ \"error\": [InvalidOperationException] \"" + e.ToString() + "\" }";
+            }
+            catch (ScriptCallDepthException e)
+            {
+                return "{ \"error\": [ScriptCallDepthException] \"" + e.ToString() + "\" }";
+            }
+            catch (RuntimeException e)
+            {
+                return "{ \"error\": [RuntimeException] \"" + e.ToString() + "\" }";
+            }
+            catch (Exception e)
+            {
+                return "{ \"error\": \"" + e.ToString() + "\" }";
+            }
 
             if (result.Count == 0)
             {
-                return "{}";
+                return result.ToString();
             }
             else
             {
