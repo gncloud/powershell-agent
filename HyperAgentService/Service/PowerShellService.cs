@@ -104,7 +104,7 @@ namespace com.gncloud.hyperv.agent.Service
                             // outputItem.BaseOBject
                             returnArr.Add(JToken.Parse(outputItem.BaseObject.ToString()));
                         }
-                        result.Add("returnArray", returnArr);
+                        result.Add("resultArray", returnArr);
                     }
                 }
 

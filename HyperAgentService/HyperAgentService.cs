@@ -36,8 +36,8 @@ namespace HyperAgentService
                 );
                 */
                 log4net.Config.XmlConfigurator.Configure();
-                log.Debug("-------- Gncloud Hyper-V Agent Service Start --------");
-                log.Debug("접근 포트 설정: " + Properties.Settings.Default.ProcessPort);
+                log.Info("-------- Gncloud Hyper-V Agent Service Start --------");
+                log.Info("접근 포트 설정: " + Properties.Settings.Default.ProcessPort);
 
                 server = new HttpSelfHostServer(config);
                 server.OpenAsync().Wait();
