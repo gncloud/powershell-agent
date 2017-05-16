@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
-using System.Net.Http.Headers;
+using log4net;
 
 namespace HyperAgentService
 {
     public partial class HyperAgentService : ServiceBase
     {
         HttpSelfHostServer server;
+        ILog log = log4net.LogManager.GetLogger(typeof(HyperAgentService));
 
         public HyperAgentService()
         {
@@ -32,26 +26,25 @@ namespace HyperAgentService
 
         protected override void OnStart(string[] args)
         {
-
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\system.log"))
+            try
             {
-                try
-                {
-                    var config = new HttpSelfHostConfiguration("http://127.0.0.1:" + Properties.Settings.Default.ProcessPort);
-                    config.MapHttpAttributeRoutes();
-                    /*
-                    config.Routes.MapHttpRoute("API Default", "api/{controller}/{id}",
-                        new { id = RouteParameter.Optional }
-                    );
-                    */
+                var config = new HttpSelfHostConfiguration("http://127.0.0.1:" + Properties.Settings.Default.ProcessPort);
+                config.MapHttpAttributeRoutes();
+                /*
+                config.Routes.MapHttpRoute("API Default", "api/{controller}/{id}",
+                    new { id = RouteParameter.Optional }
+                );
+                */
+                log4net.Config.XmlConfigurator.Configure();
+                log.Debug("-------- Gncloud Hyper-V Agent Service Start --------");
+                log.Debug("접근 포트 설정: " + Properties.Settings.Default.ProcessPort);
 
-                    server = new HttpSelfHostServer(config);
-                    server.OpenAsync().Wait();
-                }
-                catch (Exception ex)
-                {
-                    file.WriteLine("Exception: " + ex.Message);
-                }
+                server = new HttpSelfHostServer(config);
+                server.OpenAsync().Wait();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exception: ", ex);
             }
         }
 
